@@ -22,7 +22,38 @@ namespace longest_increasing_subsequence
             
             string input = string.Empty;
 
-            // As Console.ReadLine has limitation to enter the limted charecter I have created this function to have unlimited input charecters
+            input = getInput();
+
+            //check if any charecters are there in the input if yes then exit the code
+            bool invalidInput = input.Any(x => x != ' ' && !char.IsDigit(x));
+            if (invalidInput)
+            {
+                Console.WriteLine();
+                Console.WriteLine("This is an invalid input, please enter only numbers with spaces");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+
+            // Code to split the input with spaces
+            List<string> inputList =  input.Trim().Split(' ').ToList();
+            //check if all the entered are numbers
+            List<SequenceAndCountMapping> interimOutput = new List<SequenceAndCountMapping>();
+
+            // Get the list of optimized possibility if outcomes
+            interimOutput = getSeq(inputList, 0, interimOutput);
+
+            displayOutput(interimOutput);
+            Console.ReadKey();
+        }
+
+        /// <summary>
+        /// Method to get user input
+        /// As Console.ReadLine has limitation to enter the limted charecter I have created this function to have unlimited input charecters
+        /// </summary>
+        /// <returns></returns>
+        private static string getInput()
+        {
+            string input = string.Empty;
             while (true)
             {
                 ConsoleKeyInfo keyIn = Console.ReadKey();
@@ -30,27 +61,15 @@ namespace longest_increasing_subsequence
                     break;
                 else
                 {
-
                     input += keyIn.KeyChar.ToString();
                 }
             }
-            
-            // Code to split the input with spaces
-            List<string> inputList =  input.Trim().Split(' ').ToList();
-            //check if all the entered are numbers
-            List<SequenceAndCountMapping> interimOutput = new List<SequenceAndCountMapping>();
-            SequenceAndCountMapping singleOutput = new SequenceAndCountMapping();
-            // 6 1 5 9 2 12 33 45 12 34 56 78 90
-
-            interimOutput = getSeq(inputList, 0, interimOutput);
-
-            displayOutput(interimOutput);
-
-            Console.ReadKey();
+            return input;
         }
 
+
         /// <summary>
-        /// Methods to provide the output
+        /// Method to provide the output i.e. 1st maximum Longest increasing subsequence
         /// </summary>
         /// <param name="outPut"></param>
         private static void displayOutput(List<SequenceAndCountMapping> outPut)
@@ -64,11 +83,16 @@ namespace longest_increasing_subsequence
                 if (maxCount < crntOutput.countOfNumbers)
                     seqToBePrinted = crntOutput.sequenceList;
             }
-
             Console.WriteLine(seqToBePrinted);
-            
         }
 
+        /// <summary>
+        /// Method to scan for Longest increasing subsequence
+        /// </summary>
+        /// <param name="inputList"></param>
+        /// <param name="currentIndex"></param>
+        /// <param name="outPut"></param>
+        /// <returns></returns>
         public static List<SequenceAndCountMapping> getSeq(List<string> inputList, int currentIndex, List<SequenceAndCountMapping> outPut)
         {
             
@@ -86,6 +110,7 @@ namespace longest_increasing_subsequence
                     nextNumber = Convert.ToInt32(inputList[currentIndex + 1]);
                 else
                 {
+                    // Handle last number
                     if(currentNumber > Convert.ToInt32(inputList[currentIndex -1]))
                     {
                         currentSequenceCount += 1;
@@ -133,9 +158,7 @@ namespace longest_increasing_subsequence
                 }
                 currentIndex += 1;
             }
-
-
-            
+                        
             return outPut;
         }
     }
