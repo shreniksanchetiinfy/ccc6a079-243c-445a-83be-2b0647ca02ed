@@ -53,6 +53,7 @@ namespace longest_increasing_subsequence
         /// <returns></returns>
         private static string getInput()
         {
+            Console.WriteLine("Please enter your numeric input");
             string input = string.Empty;
             while (true)
             {
@@ -95,14 +96,14 @@ namespace longest_increasing_subsequence
         /// <returns></returns>
         public static List<SequenceAndCountMapping> getSeq(List<string> inputList, int currentIndex, List<SequenceAndCountMapping> outPut)
         {
-            
-            int currentNumber = Convert.ToInt32(inputList[currentIndex]);
+
+            int currentNumber;
             int nextNumber = Convert.ToInt32(inputList[currentIndex + 1]);
             SequenceAndCountMapping currentOutput;
             int currentSequenceCount = 0;
             int maxCout = 0;
-
             string list = string.Empty;
+
             while(currentIndex <= inputList.Count - 1)
             {
                 currentNumber = Convert.ToInt32(inputList[currentIndex]);
@@ -139,7 +140,6 @@ namespace longest_increasing_subsequence
                 }
                 else
                 {
-
                     currentSequenceCount += 1;
                     list += currentNumber.ToString();
 
@@ -157,8 +157,7 @@ namespace longest_increasing_subsequence
                     currentSequenceCount = 0;
                 }
                 currentIndex += 1;
-            }
-                        
+            }      
             return outPut;
         }
     }
